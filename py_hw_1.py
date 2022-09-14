@@ -21,7 +21,7 @@ def step2_umbrella():
                'нет': 'Хорошо, что утка пьёт! И не вспомнит про тот зонт.'}
     answer = ''
     while answer not in answers:
-        answer = input(f'Выберите: {"/".join(list(answers.keys()))}\n')
+        answer = input(f'Выберите: {"/".join(answers)}\n')
     print(answers[answer])
 
 
@@ -32,7 +32,7 @@ def step2_no_umbrella():
                'нет': 'Утка умная у нас - экстрасенсом будет "класс!".'}
     answer = ''
     while answer not in answers:
-        answer = input(f'Выберите: {"/".join(list(answers.keys()))}\n')
+        answer = input(f'Выберите: {"/".join(answers)}\n')
     print(answers[answer])
 
 
