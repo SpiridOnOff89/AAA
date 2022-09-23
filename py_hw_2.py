@@ -2,7 +2,10 @@ DATA = 'Corp_Summary.csv'
 
 
 def make_report(file_name: str) -> dict:
-    """Создает отчет из файла csv и сохраяет его в переменной report типа dict"""
+    """
+    Создает отчет из файла csv и сохраяет
+    его в переменной report типа dict
+    """
 
     import csv
 
@@ -90,16 +93,17 @@ def print_teams(report: dict) -> None:
     print_table(data, 'структура департаментов')
 
 
-def print_report(report:dict) -> None:
-    """"Создает двумерный массив со сведениями сводного отчета и печатает его функцией print_table"""
+def print_report(report: dict) -> None:
+    """"Создает двумерный массив со сведениями сводного отчета и
+    печатает его функцией print_table"""
     data = [['Департамент', 'Чел.', 'Средняя зарплата', 'Зарплатная вилка']]
     for department in report:
         data.append(
             [
-            department,
-            str(report[department]['quantity']),
-            str(report[department]['mean_salary']),
-            f"{report[department]['min_salary']} - {report[department]['max_salary']}"
+                department,
+                str(report[department]['quantity']),
+                str(report[department]['mean_salary']),
+                f"{report[department]['min_salary']} - {report[department]['max_salary']}"
             ]
         )
     print_table(data, 'сводный отчет')
@@ -125,21 +129,20 @@ def save_report(report: dict) -> None:
 
 
 def menu(data: str) -> None:
-    """Предлагает пользователю выбрать один из трех вариантов действий и запускает соответствующую функцию"""
+    """Предлагает пользователю выбрать один
+    из трех вариантов действий и
+    запускает соответствующую функцию"""
     commands = ['1', '2', '3', '0']
     actions = [print_teams, print_report, save_report]
 
     report = make_report(data)
 
     while True:
-        command = input(
-        """Выберите вариант действия:
+        command = input("""Выберите вариант действия:
 1. Вывести структуру департаментов
 2. Вывести сводный отчет
 3. Сохранить сводный отчет в файл
-0. Выйти
-"""
-        )
+0. Выйти""")
 
         while command not in commands:
             command = input(f'Введите команду: {" / ".join(commands)}\n')
@@ -150,7 +153,7 @@ def menu(data: str) -> None:
         func = actions[int(command) - 1]
         func(report)
 
-        answers =['y', 'n']
+        answers = ['y', 'n']
         answer = input(f"Желаете продолжиить?\nВыберите {'/'.join(answers)}\n")
 
         while answer not in ['y', 'n']:
