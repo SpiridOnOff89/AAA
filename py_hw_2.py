@@ -142,7 +142,7 @@ def menu(data: str) -> None:
 1. Вывести структуру департаментов
 2. Вывести сводный отчет
 3. Сохранить сводный отчет в файл
-0. Выйти""")
+0. Выйти\n""")
 
         while command not in commands:
             command = input(f'Введите команду: {" / ".join(commands)}\n')
