@@ -41,30 +41,58 @@ def make_report(file_name: str) -> dict:
     return report
 
 
+def print_table(data: list, title: str) -> None:
+    """Печатает таблицу из двумерного массива"""
+    max_columns = []
+    for col in zip(*data):
+        len_el = []
+        for el in col:
+            len_el.append(len(el))
+        max_columns.append(max(len_el))
+
+    for i in range(len(data)):
+        line = '-' * (sum(max_columns) + 5 * len(data[0]) + 1)
+        if i == 0:
+            print(line)
+            print('|' + ' ' * ((len(line) - len(title)) // 2 - 1) + title.upper() +
+                  ' ' * (len(line) - len(title) - ((len(line) - len(title)) // 2) - 1) +
+                  '|')
+            print(line)
+        print('|', end='')
+        for j in range(len(max_columns)):
+            print(' ', data[i][j], ' ' * (max_columns[j] - len(data[i][j])), end=' |')
+        print('')
+        if i == 0:
+            print(line)
+        if i == len(data) - 1:
+            print(line)
+
+
 def print_teams(report: dict) -> None:
-    """Печатает список команд каждого департамента"""
+    """Создает двумерный массив структуры департаментов и печатает его функцией print_table"""
+    data = [[department for department in report]]
+
+    max_departments = 0
     for department in report:
-        print(f'Команды департамента "{department}":')
-        n = 1
-        for team in report[department]['teams']:
-            print(f'{n}) {team}')
-            n += 1
-        print()
+        report[department]['teams'] = list(report[department]['teams'])
+        if len(report[department]['teams']) > max_departments:
+            max_departments = len(report[department]['teams'])
+
+    for i in range(max_departments):
+        line = []
+        for j in range(len(data[0])):
+            try:
+                line.append(report[data[0][j]]['teams'][i])
+            except:
+                line.append('')
+        data.append(line)
+
+    print_table(data, 'структура департаментов')
 
 
-def print_stats(report: dict) -> None:
-    """Печатает численность, вилку зарплат и среднюю зарплату по департаментам"""
-    for department in report:
-        print(f'Департамент "{department}"')
-        print(f'Численность: {report[department]["quantity"]}')
-        print(f'Вилка зарплат: {report[department]["min_salary"]} - {report[department]["max_salary"]}')
-        print(f'Средняя зарплата: {report[department]["mean_salary"]}')
-        print()
-
-
-def print_table(report:dict) -> None:
-
-    data = []
+def print_report(report:dict) -> None:
+    """"Создает двумерный массив со сведениями сводного отчета и печатает его функцией print_table"""
+    data = [['Департамент', 'Чел.', 'Средняя зарплата', 'Зарплатная вилка']]
     for department in report:
         data.append(
             [
@@ -74,19 +102,10 @@ def print_table(report:dict) -> None:
             f"{report[department]['min_salary']} - {report[department]['max_salary']}"
             ]
         )
-
-    max_columns = []
-    for col in zip(*data):
-        len_el = []
-        for el in col:
-            len_el.append(len(el))
-        max_columns.append(max(len_el))
+    print_table(data, 'сводный отчет')
 
 
-
-
-
-def save_stats(report: dict) -> None:
+def save_report(report: dict) -> None:
     """Сохраняет сводный отчет по департаментам в файл"""
     import csv
     file_name = input('Введите название файла: ') + '.csv'
@@ -106,26 +125,39 @@ def save_stats(report: dict) -> None:
 
 
 def menu(data: str) -> None:
-    """Предлагает пользователю выбрать один из трех вариантов действий"""
-    commands = ['1', '2', '3']
-    actions = [print_teams, print_table, save_stats]
+    """Предлагает пользователю выбрать один из трех вариантов действий и запускает соответствующую функцию"""
+    commands = ['1', '2', '3', '0']
+    actions = [print_teams, print_report, save_report]
 
     report = make_report(data)
 
-    command = input(
+    while True:
+        command = input(
         """Выберите вариант действия:
-1. Вывести команды департаментов
+1. Вывести структуру департаментов
 2. Вывести сводный отчет
 3. Сохранить сводный отчет в файл
+0. Выйти
 """
-    )
+        )
 
-    while command not in commands:
-        command = input(f'Введите команду: {" / ".join(commands)}\n')
+        while command not in commands:
+            command = input(f'Введите команду: {" / ".join(commands)}\n')
 
-    func = actions[int(command) - 1]
-    func(report)
+        if command == '0':
+            return
 
+        func = actions[int(command) - 1]
+        func(report)
+
+        answers =['y', 'n']
+        answer = input(f"Желаете продолжиить?\nВыберите {'/'.join(answers)}\n")
+
+        while answer not in ['y', 'n']:
+            answer = input(f"Выберите: {' / '.join(answers)}\n")
+
+        if answer == 'n':
+            return
 
 
 if __name__ == '__main__':
