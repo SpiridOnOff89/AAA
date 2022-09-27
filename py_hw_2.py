@@ -72,21 +72,26 @@ def print_table(data: list, title: str) -> None:
 
 
 def print_teams(report: dict) -> None:
-    """Создает двумерный массив структуры департаментов и печатает его функцией print_table"""
+    """Создает двумерный массив структуры департаментов
+    и печатает его функцией print_table"""
     data = [[department for department in report]]
 
-    max_departments = 0
+    # считаю максимально встречающееся количество команд в департаменте
+    # для последующего определения размера двумерного массива,
+    # заодно перевожу множество teams в массив для последующей обработки в цикле по индексу
+    max_teams = 0
     for department in report:
         report[department]['teams'] = list(report[department]['teams'])
-        if len(report[department]['teams']) > max_departments:
-            max_departments = len(report[department]['teams'])
+        if len(report[department]['teams']) > max_teams:
+            max_teams = len(report[department]['teams'])
 
-    for i in range(max_departments):
+    # добавляю в массив data списки с названиями команд - будущие строки таблицы
+    for i in range(max_teams):
         line = []
-        for j in range(len(data[0])):
-            try:
+        for j in range(len(report)):
+            if len(report[data[0][j]]['teams']) >= i + 1:
                 line.append(report[data[0][j]]['teams'][i])
-            except:
+            else:
                 line.append('')
         data.append(line)
 
