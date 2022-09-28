@@ -16,7 +16,7 @@ def make_report(file_name: str) -> dict:
         for row in reader:
             if counter == 0:
                 counter += 1
-                continue # пропускаю строку с названиями столбцов
+                continue  # пропускаю строку с названиями столбцов
 
             # сохраняю необходимую информацию в переменные
             info = row[0].split(';')
@@ -65,7 +65,7 @@ def print_table(data: list, title: str) -> None:
             print(line)
             print('|' + ' ' * ((len(line) - len(title)) // 2 - 1) + title.upper() +
                   ' ' * (len(line) - len(title) - ((len(line) - len(title)) // 2) - 1) +
-                  '|') # заголовок
+                  '|')  # заголовок
             print(line)
         print('|', end='')
         for j in range(len(max_columns)):
