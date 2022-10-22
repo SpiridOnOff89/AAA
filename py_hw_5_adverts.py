@@ -14,6 +14,7 @@ class AttrMakerMixin:
 
 
 class ColorizeMixin:
+
     repr_color_code = 33
 
     def __repr__(self):
@@ -22,7 +23,6 @@ class ColorizeMixin:
 
 
 class Advert(AttrMakerMixin, ColorizeMixin):
-
     def __init__(self, advert: dict):
         self._advert = advert
         super().__init__(self._advert)
