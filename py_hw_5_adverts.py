@@ -62,6 +62,7 @@ if __name__ == '__main__':
     iphone = Advert(iphone_dict)
     # Advert({'title': 'дырявый носок', 'price': -3})
     print(iphone.price)
-    print(iphone.location.address)
+    print(iphone.location.metro_stations)
     print(corgi.class_)
     print(corgi)
+
