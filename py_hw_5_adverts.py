@@ -24,11 +24,9 @@ class ColorizeMixin:
 
 class Advert(AttrMakerMixin, ColorizeMixin):
     def __init__(self, advert: dict):
-        self._advert = advert
-        super().__init__(self._advert)
-        super().__init__
+        super().__init__(advert)
 
-        self._price = int(self._advert['price']) if 'price' in self._advert else 0
+        self._price = int(advert['price']) if 'price' in advert else 0
         if self._price < 0:
             raise ValueError('must be >= 0')
         if 'class' in self.__dict__:
@@ -60,7 +58,7 @@ if __name__ == '__main__':
     iphone_dict = json.loads(iphone_str)
     corgi = Advert(corgi_dict)
     iphone = Advert(iphone_dict)
-    # Advert({'title': 'дырявый носок', 'price': -3})
+    #Advert({'title': 'дырявый носок', 'price': -3})
     print(iphone.price)
     print(iphone.location.metro_stations)
     print(corgi.class_)
